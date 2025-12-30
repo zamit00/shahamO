@@ -3226,6 +3226,104 @@
     <link rel="stylesheet" href="footer.css">
     
     <style>
+    /* עיצוב הכללי של הקונטיינר של הטופס */
+.simple-form-container {
+  background-color:#0183AA; /* צבע רקע כהה */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* עיצוב של הכותרת הראשית של הטופס */
+.header-line {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header-line img {
+  width: 100%;
+  max-width: 300px;
+  margin-top: 10px;
+}
+
+/* עיצוב של הרקע עבור הטופס */
+.agent-bg {
+  background-color: #0183AA; /* צבע רקע כהה ומעט בהיר יותר */
+  padding: 20px;
+  border-radius: 8px;
+}
+
+/* עיצוב של כל שדה טופס */
+.agent-form .input-col {
+  margin-bottom: 20px;
+}
+
+.agent-form input[type="text"], 
+.agent-form input[type="email"], 
+.agent-form input[type="tel"], 
+.agent-form select {
+  width: 100%;
+  padding: 12px;
+  background-color: #fff; /* צבע רקע לבן לשדות */
+  border: 1px solid #0183AA; /* גבול בצבע האתר */
+  border-radius: 8px;
+  font-size: 16px;
+  color: #333; /* צבע טקסט כהה */
+}
+
+/* עיצוב עבור כפתור הסכמה */
+.agent-form .wpcf7-acceptance {
+  color: #fff; /* טקסט לבן */
+  font-size: 14px;
+}
+
+.agent-form .wpcf7-acceptance input {
+  margin-right: 8px; /* רווח בין תיבת הסימון לטקסט */
+}
+
+/* עיצוב עבור כפתור שלח */
+.submit-col p input[type="submit"] {
+  background-color: #3aafe6; /* צבע האתר */
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 90%;
+}
+
+.submit-col p input[type="submit"]:hover {
+  background-color: #139276; /* צבע כהה יותר בעת hover */
+}
+
+/* עיצוב לטופס רספונסיבי */
+@media (max-width: 767px) {
+  .simple-form-container {
+    padding: 15px;
+  }
+
+  .header-line img {
+    max-width: 100%;
+  }
+
+  .agent-form .input-col {
+    margin-bottom: 10px;
+  }
+}
+
+    
+
+
+
+
+
+
+
+
         /* Scroll to Top Button - Mobile Only */
         #scrollToTopBtn {
             display: none;
@@ -3910,7 +4008,7 @@
 <div class="comparison-modal" id="comparisonModal">
    	<div class="comparison-card">
         <i onclick="closeComparisonModal()" class="fas fa-times" style="font-size: 2rem; cursor: pointer; color: #dc3545; margin-bottom: 2rem;"></i>
-		<h2>קופת גמל להשקעה או פוליסת חיסכון – במה לבחור?</h2
+		<h2>קופת גמל להשקעה או פוליסת חיסכון – במה לבחור?</h2>
 		<p>
 			עולם ההשקעות הפרטיות מציע שתי אפשרויות מרכזיות לחיסכון נזיל ולטווח ארוך:
 			<strong>קופת גמל להשקעה</strong> ו־<strong>פוליסת חיסכון</strong>.
@@ -4044,7 +4142,81 @@
             <a href="#consultation" class="cta-button-white" onclick="openConsultationForm()"> יעוץ אישי</a>
         </div>
     </section>	
+<div class="simple-form-container">
+		<div class="header-line has-h2">
+			<div class="h2">
+				&nbsp;			</div>
 
+			<img src="/wp-content/themes/orlan/images/line.png" alt="" title="">
+		</div>
+		<div class="agent-bg">
+			<div class="agent-form">
+				
+<div class="wpcf7 js" id="wpcf7-f1428-p906-o1" lang="en-US" dir="ltr" data-wpcf7-id="1428">
+<div class="screen-reader-response"><p role="status" aria-live="polite" aria-atomic="true"></p> <ul></ul></div>
+<form action="/%d7%a6%d7%a8%d7%95-%d7%a7%d7%a9%d7%a8/#wpcf7-f1428-p906-o1" method="post" class="wpcf7-form init" aria-label="Contact form" novalidate="novalidate" data-status="init">
+<div style="display: none;">
+<input type="hidden" name="_wpcf7" value="1428">
+<input type="hidden" name="_wpcf7_version" value="6.0">
+<input type="hidden" name="_wpcf7_locale" value="en_US">
+<input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f1428-p906-o1">
+<input type="hidden" name="_wpcf7_container_post" value="906">
+<input type="hidden" name="_wpcf7_posted_data_hash" value="">
+<input type="hidden" name="_wpcf7cf_hidden_group_fields" value="[&quot;current_agent_text&quot;]">
+<input type="hidden" name="_wpcf7cf_hidden_groups" value="[&quot;group-1&quot;]">
+<input type="hidden" name="_wpcf7cf_visible_groups" value="[]">
+<input type="hidden" name="_wpcf7cf_repeaters" value="[]">
+<input type="hidden" name="_wpcf7cf_steps" value="{}">
+<input type="hidden" name="_wpcf7cf_options" value="{&quot;form_id&quot;:1428,&quot;conditions&quot;:[{&quot;then_field&quot;:&quot;group-1&quot;,&quot;and_rules&quot;:[{&quot;if_field&quot;:&quot;is_customer&quot;,&quot;operator&quot;:&quot;equals&quot;,&quot;if_value&quot;:&quot;\u05db\u05df&quot;}]}],&quot;settings&quot;:{&quot;animation&quot;:&quot;yes&quot;,&quot;animation_intime&quot;:200,&quot;animation_outtime&quot;:200,&quot;conditions_ui&quot;:&quot;normal&quot;,&quot;notice_dismissed&quot;:false,&quot;notice_dismissed_rollback-cf7-5.8&quot;:true}}">
+<input type="hidden" name="_wpcf7_recaptcha_response" value="0cAFcWeA4XYqYWdD3BDYyFxctIcnRys_Y3-ZkZ1xrMH0Ha8LfT_NFU0tWNt4zfcPk7W-PHHtpIIVnl7aREoY6dZkCUzBLDD8p-s5dCi82e_LOamLYyaNwGEglkkEF8cETUE14a8mvc-IP4KoINi5auBWu1y78K1AmmcpzY8bwuzCdc-tKkQJofhnXIQtoqoQaZv5bIwASMof_cYm1Q-m8jXz4nqOJAqEKwKrhydxgL3ymuoDS_6tBAaZgsPnke0KITBzZhKKS9ITyEp0zOp8AYa-dyOGBfT8pSxai2IyRrbYdIFvxNHOKuEaHb9RI4xOU6tIc76_1zKYvSsJfaDPGiK03qJMsOx407t9Pn1ndNUPTV-esknJwBzh6zflD3YUfwPZVlLTKyMumNiLbiKxG81w6lQ0afzknFVPttVhr2PyeXHbCjunbo9oz_CCTX_ClYyf5XvvPbm3OeKQFpfjdCxIQXqWECBeaj89Sw31epvP9yCdFj49JL3BWjmbTqtLthO86q9-ONqYAf6e8UfoiU9iSYL3ufHF8zt4cD27F04nRTe8z2KhfQ9ckmEIen4PEAgdH1p1K6hspX2lK4QeqTToCW2Jq_d0bjXuC2BPWnraFaqSqMDN5Y3AiyWnENDJtUUcJfIQTdCvGvAdkmwddXWwZln0aJ5SSKwwKcTDR2KlKbd3eMG50UXk3BkY2HfVdH-2TY9mr42XyM4F2PJKPZxKpToSqrcPhuSWJBkTbFV5jJbUOmDglBWlQYfwetXVUiDcd-gl4fuaz1DtzRbigQdg6icAgq3AVIY9o0Yzyxs76uiNEPPk9PQ86IIz1ydRXoc3cQujPbhnJMJCjaOvX9GCVw_bJQxo77_4i_jzvepY1XpHSixawfZVZZPnzfeJrp8ZWtUmbLWBcyk8RIyNvVDBmiYNo6MWU7V-GRoUgZzLeq1r0Gtfwpmznyz44CweIECxsz5177RwQspV6U30v9t-sm3GBO5SUgbgjrurVj4dhwbRdXQ0CCHBvfscwPQJ8qrJMFfHKZQZ6yCwD86w4UQTTs3UUt8xRLdcneipXDGchUAvzB053PrUSNN1SxtbQTLd9ZuYd1H2EwmRiNEgNGunelntADDo5gSlHD_DhTLtA9JMsGc_QhldhO2JsejmUIxfVYpge2fownisNLHIEdggrt7E9ePGRJffkd8UMf66LTg2X8hcQh3P84o2e1sB0cVs83no5XomuQDsdx5yVUr5Y9grq5BWb98HNSiFzr8L7b-dD5ESuqPj79ZVuCZnqXGItVdZ4zSgajYmeHPr5wjcMfVzfivyMgXSW6RvhwyIISWfbNRGbIqZbqsLYNejcfgZVM9joSCEyHOY5x-spUXALC1DqxHct5V11aGvT7TX15p_kSIbHoHp1ua5WkY9JcQf17-g-IRER9Ir1uGX3tCrUPrmZEG03K3VuHad9U7-zcWyQpqu1HuWeid4U5QxVtVcEWVPlwB1wA7NWZfwkOCCniWoIVdVXqRP-dcM6Zm1Y9N5ETkoMPUtgXsqDxXDQnQ-qdQ8UmfCs4vx9qc1-t1NsbOxf4YODkeizpGnNMRqM4Qh4cO2S2lbjK_ry8J1f_NYBOI8NsuvdxyHTbL9vrwIxPQ7l5MgpVhQ">
+</div>
+<div class="agents-form join customers" dir="rtl">
+	<div class="input-col">
+		<p><span class="wpcf7-form-control-wrap" data-name="firstname"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" aria-invalid="false" placeholder="שם פרטי" value="" type="text" name="firstname"></span>
+		</p>
+	</div>
+	<div class="input-col">
+		<p><span class="wpcf7-form-control-wrap" data-name="lastname"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" aria-invalid="false" placeholder="שם משפחה" value="" type="text" name="lastname"></span>
+		</p>
+	</div>
+	<div class="input-col">
+		<p><span class="wpcf7-form-control-wrap" data-name="phone"><input dir="rtl" size="40" maxlength="400" class="wpcf7-form-control wpcf7-tel wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-tel" aria-required="true" aria-invalid="false" placeholder="טלפון נייד" value="" type="tel" name="phone"></span>
+		</p>
+	</div>
+	<div class="input-col">
+		<p><span class="wpcf7-form-control-wrap" data-name="email"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-email wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-email" aria-required="true" aria-invalid="false" placeholder="כתובת אימייל" value="" type="email" name="email"></span>
+		</p>
+	</div>
+	<div class="input-col">
+		<p><span class="wpcf7-form-control-wrap" data-name="message-type"><select class="wpcf7-form-control wpcf7-select wpcf7-validates-as-required" aria-required="true" aria-invalid="false" name="message-type"><option value="" disabled="disabled">מהות הפנייה</option><option value="קבלת הצעת מחיר ביטוח רכוש">קבלת הצעת מחיר ביטוח רכוש</option><option value="קבלת הצעת מחיר ביטוחי חיים בריאות">קבלת הצעת מחיר ביטוחי חיים בריאות</option><option value="קבלת הצעת מחיר פיננסים">קבלת הצעת מחיר פיננסים</option><option value="קבלת שירות כללי">קבלת שירות כללי</option><option value="אחר">אחר</option></select></span>
+		</p>
+	</div>
+	<div class="input-col radios">
+		<p><span class="radios-label">האם את/ה מבוטח/ת אצלנו כיום?</span><span class="wpcf7-form-control-wrap" data-name="is_customer"><span class="wpcf7-form-control wpcf7-radio"><span class="wpcf7-list-item first"><label><input type="radio" name="is_customer" value="כן"><span class="wpcf7-list-item-label">כן</span></label></span><span class="wpcf7-list-item last"><label><input type="radio" name="is_customer" value="לא"><span class="wpcf7-list-item-label">לא</span></label></span></span></span>
+		</p>
+	</div>
+	<div class="input-col">
+		<div data-id="group-1" data-orig_data_id="group-1" data-class="wpcf7cf_group" style="height: auto;" class="wpcf7cf-hidden">
+			<p><span class="wpcf7-form-control-wrap" data-name="current_agent_text"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-text" aria-invalid="false" placeholder="הקלד/י את שם הסוכן" value="" type="text" name="current_agent_text"></span>
+			</p>
+		</div>
+	</div>
+	<div class="input-col">
+	</div>
+	<div class="input-col full pp">
+		<p><span class="wpcf7-form-control-wrap" data-name="pp-agree"><span class="wpcf7-form-control wpcf7-acceptance"><span class="wpcf7-list-item"><label><input type="checkbox" name="pp-agree" value="1" aria-invalid="false"><span class="wpcf7-list-item-label">אני מוסר את המידע מרצוני החופשי ובהסכמתי המלאה מבלי שחלה עליה חובה חוקית לעשות כן. ידוע לי כי המידע עשוי להימסר לצדדים שלישיים על מנת שאקבל את השירותים ו/או המוצרים הביטוחיים המבוקשים על ידי. כמו כן ידוע לי כי אוכל לבקש לתקן ולעיין במידע אודותיי בהתאם לדיני הפרטיות. ככל שלא אמסור את המידע, מטבע הדברים, לא אוכל לקבל את השירותים ו/או המוצרים המוצעים. שם בעלת השליטה במאגר המידע: שחם אורלן סוכנות לביטוח בע"מ | מייל: info@shaham-orlan.co.il | טלפון: 03-920666 | כתובת סניף ראשי: רח' היצירה 3, פתח – תקווה.</span></label></span></span></span>
+		</p>
+	</div>
+	<div class="submit-col">
+		<p><input class="wpcf7-form-control wpcf7-submit has-spinner" id="agents-submit-form" type="submit" value="שלח" disabled=""><span class="wpcf7-spinner"></span>
+		</p>
+	</div>
+</div><div class="wpcf7-response-output" aria-hidden="true"></div>
+</form>
+</div>
+			</div>
+		</div>
+	</div>
 <div class="logos">
         <div class="logos-slide">
     <img src="altshuler-logo.png" id="altshuler-logo" alt="Altshuler Logo">
