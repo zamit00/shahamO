@@ -3227,12 +3227,54 @@
     
     <style>
     /* עיצוב הכללי של הקונטיינר של הטופס */
+/* עיצוב הכללי של הקונטיינר */
+.col-lg-9.mx-auto.text-center {
+  background-color: #2983b3; /* צבע רקע כהה */
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  margin-bottom: 40px;
+  max-width: 1000px;
+  margin: 10px auto;
+  text-align: center;
+}
+
+/* עיצוב הכותרת */
+.intro-title {
+  font-size: 36px;
+  font-weight: bold;
+  color: white; /* צבע האתר לכותרת */
+  margin-bottom: 20px;
+  text-transform: uppercase; /* טקסט באותיות גדולות */
+  max-width: 1000px;
+}
+
+/* עיצוב התוכן (הפסקה) */
+.intro-content {
+  font-size: 18px;
+  color: #fff; /* טקסט לבן */
+  line-height: 1.6;
+}
+
+/* עיצוב התוכן במובייל - קטן יותר, נגיש יותר */
+@media (max-width: 767px) {
+  .intro-title {
+    font-size: 28px;
+  }
+
+  .intro-content {
+    font-size: 16px;
+    text-align: center;
+  }
+}
+
+
 .simple-form-container {
   background-color:#0183AA; /* צבע רקע כהה */
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
@@ -4141,7 +4183,11 @@
             <p class="cta-subtitle">קבל יעוץ מקצועי ותתחיל לנהל את הכספים שלך בדרך הנכונה והרווחית</p>
             <a href="#consultation" class="cta-button-white" onclick="openConsultationForm()"> יעוץ אישי</a>
         </div>
-    </section>	
+    </section>
+<div class="col-lg-9 mx-auto text-center">			
+	<div class="intro-title title-size--medium">יצירת קשר</div>	
+    <div class="intro-content"><p>השאירו את פרטיכם וניצור עמכם קשר בהקדם.</p></div>
+</div>	
 <div class="simple-form-container">
 		<div class="header-line has-h2">
 			<div class="h2">
