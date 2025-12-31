@@ -3366,13 +3366,6 @@
 
     
 
-
-
-
-
-
-
-
         /* Scroll to Top Button - Mobile Only */
         #scrollToTopBtn {
             display: none;
@@ -3391,7 +3384,7 @@
             transition: all 0.3s ease;
             font-size: 1.2rem;
         }
-       #adviceBtnFloat {
+#adviceBtnFloat {
     display: none;             /* משתמש ב-flexbox למרכז את התוכן */
     justify-content: center;   /* ממקם את הטקסט במרכז אופקית */
     align-items: center;       /* ממקם את הטקסט במרכז אנכית */
@@ -3402,7 +3395,8 @@
     border: 2px solid #0183AA;
     z-index: 999;
     bottom: 20vh;
-    left: 33%;
+     left: 50%;                
+    transform: translateX(-50%);
     width: clamp(150px, 30%, 200px);
     height: 45px;
     padding: 0;                /* מבטל ריפוד כדי ש-flexbox יתפקד טוב */
@@ -4288,7 +4282,7 @@
 	<div class="input-col">
 	</div>
 	<div class="input-col full pp">
-		<p><span class="wpcf7-form-control-wrap" data-name="pp-agree"><span class="wpcf7-form-control wpcf7-acceptance"><span class="wpcf7-list-item"><label><input type="checkbox" name="pp-agree" value="1" aria-invalid="false"><span class="wpcf7-list-item-label">אני מוסר את המידע מרצוני החופשי ובהסכמתי המלאה מבלי שחלה עליה חובה חוקית לעשות כן. ידוע לי כי המידע עשוי להימסר לצדדים שלישיים על מנת שאקבל את השירותים ו/או המוצרים הביטוחיים המבוקשים על ידי. כמו כן ידוע לי כי אוכל לבקש לתקן ולעיין במידע אודותיי בהתאם לדיני הפרטיות. ככל שלא אמסור את המידע, מטבע הדברים, לא אוכל לקבל את השירותים ו/או המוצרים המוצעים. שם בעלת השליטה במאגר המידע: שחם אורלן סוכנות לביטוח בע"מ | מייל: info@shaham-orlan.co.il | טלפון: 03-920666 | כתובת סניף ראשי: רח' היצירה 3, פתח – תקווה.</span></label></span></span></span>
+		<p><span class="wpcf7-form-control-wrap" data-name="pp-agree"><span class="wpcf7-form-control wpcf7-acceptance"><span class="wpcf7-list-item"><label><input style="margin-left:15px" type="checkbox" name="pp-agree" value="1" aria-invalid="false"><span style="text-align: justify;" class="wpcf7-list-item-label">אני מוסר את המידע מרצוני החופשי ובהסכמתי המלאה מבלי שחלה עליה חובה חוקית לעשות כן. ידוע לי כי המידע עשוי להימסר לצדדים שלישיים על מנת שאקבל את השירותים ו/או המוצרים הביטוחיים המבוקשים על ידי. כמו כן ידוע לי כי אוכל לבקש לתקן ולעיין במידע אודותיי בהתאם לדיני הפרטיות. ככל שלא אמסור את המידע, מטבע הדברים, לא אוכל לקבל את השירותים ו/או המוצרים המוצעים. שם בעלת השליטה במאגר המידע: שחם אורלן סוכנות לביטוח בע"מ | מייל: info@shaham-orlan.co.il | טלפון: 03-920666 | כתובת סניף ראשי: רח' היצירה 3, פתח – תקווה.</span></label></span></span></span>
 		</p>
 	</div>
 	<div class="submit-col">
@@ -8278,6 +8272,7 @@
 
 </body>
 </html>
+
 
 
 
