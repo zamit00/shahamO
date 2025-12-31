@@ -44,6 +44,42 @@
             --border: rgba(0, 0, 0, 0.1);
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+        #adviceBtnFloat {
+    display: none;             /* משתמש ב-flexbox למרכז את התוכן */
+    justify-content: center;   /* ממקם את הטקסט במרכז אופקית */
+    align-items: center;       /* ממקם את הטקסט במרכז אנכית */
+    position: fixed;
+    background-color:white;
+    color:#0a4512;
+    font-weight: bold;
+    border: 2px solid #0183AA;
+    z-index: 999;
+    bottom: 20vh;
+     left: 50%;                
+    transform: translateX(-50%);
+    width: clamp(150px, 30%, 200px);
+    height: 45px;
+    padding: 0;                /* מבטל ריפוד כדי ש-flexbox יתפקד טוב */
+    font-size: 1rem;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px #0183AA;
+    transition: all 0.3s ease;
+}
+
+    #adviceBtnFloat span {
+        display: block;            /* ה-span צריך להיות בלוק כדי שה-flexbox יפעל */
+        text-align: center;        /* כדי לוודא שהטקסט בתוך ה-span ממורכז */
+    }
+    #adviceBtnFloat:hover{
+        transform: translateY(-3px);
+        box-shadow: 0 6px 16px #0183AA;
+    }
+    
+
+        #adviceBtnFloat.show {
+            display: flex;
+        }
 
         @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap');
         
@@ -1186,7 +1222,8 @@
     <button id="backToTop" title="חזור למעלה">
         <i class="fas fa-arrow-up"></i>
     </button>
-
+    <button id="adviceBtnFloat" onclick="openConsultationForm()" title="קבל ייעוץ חינם">
+        <span>קבל ייעוץ חינם</span></button>
     <!-- Accessibility Menu Script -->
     <script src="accessibility.js"></script>
 
@@ -1196,7 +1233,7 @@
         window.addEventListener('scroll', function() {
             const backToTopBtn = document.getElementById('backToTop');
             if (backToTopBtn && window.innerWidth <= 768) {
-                if (window.pageYOffset > 300) {
+                if (window.pageYOffset > 500) {
                     backToTopBtn.classList.add('show');
                 } else {
                     backToTopBtn.classList.remove('show');
@@ -1211,6 +1248,26 @@
                 behavior: 'smooth'
             });
         });
+
+    function updateAdviceButton() {
+        const adviceBtn = document.getElementById('adviceBtnFloat');
+        if (adviceBtn && window.innerWidth <= 768) {
+            if (window.pageYOffset > 300) {
+                adviceBtn.classList.add('show');
+            } else {
+                adviceBtn.classList.remove('show');
+            }
+        } else if (adviceBtn) {
+            adviceBtn.classList.remove('show');
+        }
+    }
+    
+    
+    window.addEventListener('scroll', updateAdviceButton);
+    window.addEventListener('resize', updateAdviceButton);
+    
+    // Initialize on load
+    setTimeout(updateAdviceButton, 100);
     </script>
 
 </body>
