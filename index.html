@@ -1242,7 +1242,7 @@
         .cta-button-white {
             background: white;
             color: #0183AA;
-            padding: 18px 40px;
+            padding: 10px 40px;
             border: none;
             border-radius: 50px;
             font-weight: bold;
@@ -2340,7 +2340,7 @@
 			}
 			
 			.cta-button-white {
-				padding: 20px 30px;
+				padding: 10px 30px;
 				font-size: 1rem;
 			}
         .logos-slide img {
@@ -3342,7 +3342,7 @@
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-right: 90%;
+  margin-right: 80%;
 }
 
 .submit-col p input[type="submit"]:hover {
@@ -3391,8 +3391,34 @@
             transition: all 0.3s ease;
             font-size: 1.2rem;
         }
-        
-        #scrollToTopBtn:hover {
+       #adviceBtnFloat {
+    display: none;             /* משתמש ב-flexbox למרכז את התוכן */
+    justify-content: center;   /* ממקם את הטקסט במרכז אופקית */
+    align-items: center;       /* ממקם את הטקסט במרכז אנכית */
+    position: fixed;
+    background-color:white;
+    color:#0a4512;
+    font-weight: bold;
+    border: 2px solid #0183AA;
+    z-index: 999;
+    bottom: 20vh;
+    left: 33%;
+    width: clamp(150px, 30%, 200px);
+    height: 45px;
+    padding: 0;                /* מבטל ריפוד כדי ש-flexbox יתפקד טוב */
+    font-size: 1rem;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px #0183AA;
+    transition: all 0.3s ease;
+}
+
+#adviceBtnFloat span {
+    display: block;            /* ה-span צריך להיות בלוק כדי שה-flexbox יפעל */
+    text-align: center;        /* כדי לוודא שהטקסט בתוך ה-span ממורכז */
+}
+
+        #scrollToTopBtn:hover,#adviceBtnFloat:hover{
             transform: translateY(-3px);
             box-shadow: 0 6px 16px #0183AA;
         }
@@ -3400,7 +3426,9 @@
         #scrollToTopBtn.show {
             display: block;
         }
-        
+        #adviceBtnFloat.show {
+            display: flex;
+        }
         @media (min-width: 769px) {
             #scrollToTopBtn {
                 display: none !important;
@@ -3546,6 +3574,9 @@
     <button id="scrollToTopBtn" onclick="scrollToTop()" title="חזור למעלה">
         <i class="fas fa-arrow-up"></i>
     </button>
+    <button id="adviceBtnFloat" onclick="openConsultationForm()" title="קבל ייעוץ חינם">
+        <span>קבל ייעוץ חינם</span></button>
+
     <header class="header" dir="rtl">
         <div class="nav-container">   
             <nav class="nav-menu" id="navMenu">
@@ -8223,9 +8254,23 @@
             scrollBtn.classList.remove('show');
         }
     }
+    function updateAdviceButton() {
+        const adviceBtn = document.getElementById('adviceBtnFloat');
+        if (adviceBtn && window.innerWidth <= 768) {
+            if (window.pageYOffset > 300) {
+                adviceBtn.classList.add('show');
+            } else {
+                adviceBtn.classList.remove('show');
+            }
+        } else if (adviceBtn) {
+            adviceBtn.classList.remove('show');
+        }
+    }
     
     window.addEventListener('scroll', updateScrollButton);
     window.addEventListener('resize', updateScrollButton);
+    window.addEventListener('scroll', updateAdviceButton);
+    window.addEventListener('resize', updateAdviceButton);
     
     // Initialize on load
     setTimeout(updateScrollButton, 100);
@@ -8233,9 +8278,6 @@
 
 </body>
 </html>
-
-
-
 
 
 
