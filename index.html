@@ -8250,15 +8250,15 @@
     }
     function updateAdviceButton() {
         const adviceBtn = document.getElementById('adviceBtnFloat');
-        if (adviceBtn && window.innerWidth <= 768) {
+ //       if (adviceBtn && window.innerWidth <= 768) {
             if (window.pageYOffset > 300) {
                 adviceBtn.classList.add('show');
             } else {
                 adviceBtn.classList.remove('show');
             }
-        } else if (adviceBtn) {
-            adviceBtn.classList.remove('show');
-        }
+     //   } else if (adviceBtn) {
+     //       adviceBtn.classList.remove('show');
+     //   }
     }
     
     window.addEventListener('scroll', updateScrollButton);
@@ -8272,6 +8272,7 @@
 
 </body>
 </html>
+
 
 
 
