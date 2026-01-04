@@ -2382,74 +2382,134 @@
                 }
             }, 100);
             
-            // שלב 3: הצגת הנתונים המרוכזים
-            const sortedEntries = Object.values(productMaslulMap).sort((a, b) => b.totalAmount - a.totalAmount);
+            // שלב 3: קיבוץ המסלולים לפי רמת הסיכון
+            const entriesByRisk = {
+                'נמוך': [],
+                'בינוני': [],
+                'גבוה': [],
+                'לא ידוע': []
+            };
             
-            
-            sortedEntries.forEach((entry) => {
-                // שימוש בפונקציה המתקדמת לחישוב סיכון לפי סטיות סטטיסטיות
-                // מעבירים את סוג המוצר (mozarType) ולא את שם התוכנית
+            // חישוב רמת הסיכון לכל מסלול וקיבוץ
+            Object.values(productMaslulMap).forEach((entry) => {
                 const mozarForCalc = entry.mozarType || entry.productName;
                 const pathwayRisk = calculateRiskByStandardDeviation(mozarForCalc, entry.maslulType);
-                const match = clientRisk ? checkRiskMatch(clientRisk, pathwayRisk) : null;
+                entry.pathwayRisk = pathwayRisk;
+                entry.mozarForCalc = mozarForCalc;
+                
+                if (pathwayRisk === 'גבוה' || pathwayRisk === 'בינוני' || pathwayRisk === 'נמוך') {
+                    entriesByRisk[pathwayRisk].push(entry);
+                } else {
+                    entriesByRisk['לא ידוע'].push(entry);
+                }
+            });
+            
+            // מיון כל קבוצה לפי סכום (גבוה לנמוך)
+            Object.keys(entriesByRisk).forEach(risk => {
+                entriesByRisk[risk].sort((a, b) => b.totalAmount - a.totalAmount);
+            });
+            
+            // הצגת המסלולים לפי קבוצות סיכון (סדר: נמוך, בינוני, גבוה, לא ידוע)
+            const riskOrder = ['נמוך', 'בינוני', 'גבוה', 'לא ידוע'];
+            const riskTitles = {
+                'נמוך': 'מסלולים בסיכון נמוך',
+                'בינוני': 'מסלולים בסיכון בינוני',
+                'גבוה': 'מסלולים בסיכון גבוה',
+                'לא ידוע': 'מסלולים ללא סיווג סיכון'
+            };
+            
+            riskOrder.forEach(riskLevel => {
+                const entries = entriesByRisk[riskLevel];
+                if (entries.length === 0) return;
+                
+                // כותרת קבוצה
+                const riskColor = riskColors[riskLevel] || '#6c757d';
+                const totalInGroup = entries.reduce((sum, entry) => sum + entry.totalAmount, 0);
                 
                 html += `
-                    <div class="analysis-card" style="border-right: 4px solid ${match ? match.color : '#6c757d'}; margin-bottom: 20px;">
-                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px; flex-wrap: wrap; gap: 15px;">
-                            <div style="flex: 1; min-width: 200px;">
-                                <h4 style="color: var(--primary); margin: 0 0 10px 0; font-size: 1.3rem;">
-                                    <i class="fas fa-layer-group"></i>
-                                    ${entry.productName}
-                                </h4>
-                                <div style="color: var(--text-light); font-size: 0.95rem;">
-                                    <i class="fas fa-route"></i> ${entry.maslulType}
+                    <div class="analysis-card" style="background: linear-gradient(135deg, ${riskColor}15 0%, ${riskColor}08 100%); border-right: 4px solid ${riskColor}; margin-bottom: 30px; padding: 20px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+                            <h3 style="color: ${riskColor}; margin: 0; font-size: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                                <div style="width: 30px; height: 30px; border-radius: 50%; background: ${riskColor}; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas ${riskLevel === 'גבוה' ? 'fa-exclamation-triangle' : riskLevel === 'בינוני' ? 'fa-equals' : riskLevel === 'נמוך' ? 'fa-check-circle' : 'fa-question-circle'}" style="color: white; font-size: 0.9rem;"></i>
                                 </div>
-                            </div>
+                                ${riskTitles[riskLevel]}
+                            </h3>
                             <div style="text-align: left;">
-                                <div style="font-size: 1.5rem; font-weight: bold; color: var(--success);">
-                                    ₪${entry.totalAmount.toLocaleString('he-IL', {maximumFractionDigits: 0})}
+                                <div style="font-size: 1.3rem; font-weight: bold; color: ${riskColor};">
+                                    ₪${totalInGroup.toLocaleString('he-IL', {maximumFractionDigits: 0})}
                                 </div>
                                 <div style="color: var(--text-light); font-size: 0.9rem;">
-                                    סך הכל
+                                    סך הכל בקבוצה
                                 </div>
                             </div>
                         </div>
-                        
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
-                            <div style="background: #f8f9fa; padding: 10px; border-radius: 6px;">
-                                <small style="color: var(--text-light);">רמת סיכון מסלול:</small><br>
-                                <span class="status-badge ${pathwayRisk === 'גבוה' ? 'status-danger' : pathwayRisk === 'בינוני' ? 'status-warning' : 'status-good'}">
-                                    ${pathwayRisk}
-                                </span>
-                            </div>
-                            <div style="background: #f8f9fa; padding: 10px; border-radius: 6px;">
-                                <small style="color: var(--text-light);">רמת סיכון לקוח:</small><br>
-                                <span class="status-badge ${clientRisk === 'גבוה' ? 'status-danger' : clientRisk === 'בינוני' ? 'status-warning' : clientRisk === 'נמוך' ? 'status-good' : 'status-warning'}" style="${!clientRisk ? 'background: #fff3cd; color: #856404;' : ''}">
-                                    ${clientRisk || 'לא בוצע שאלון סיכון'}
-                                </span>
-                            </div>
-                        </div>
-                        
-                        ${match ? 
-                            `<div style="margin-top: 15px; padding: 10px; background: white; border-radius: 6px;">
-                                <div style="display: flex; align-items: center; gap: 8px;">
-                                    <i class="fas ${match.icon}" style="color: ${match.color}; font-size: 1.2rem;"></i>
-                                    <span style="color: ${match.color}; font-weight: 500;">${match.message}</span>
-                                </div>
-                            </div>` : 
-                            `<div style="margin-top: 15px; padding: 15px; background: #fff8e1; border-radius: 8px; border-right: 4px solid #ff9800;">
-                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-                                    <i class="fas fa-exclamation-circle" style="color: #ff9800; font-size: 1.2rem;"></i>
-                                    <span style="color: #e65100; font-weight: 600;">לא ניתן להחליט ללא אופי סיכון</span>
-                                </div>
-                                <button class="btn btn-primary" onclick="goToStep(1); setTimeout(openRiskQuestModalAndReturn, 300);" style="width: 100%; justify-content: center;">
-                                    <i class="fas fa-clipboard-list"></i>
-                                    מלא שאלון סיכון
-                                </button>
-                            </div>`
-                        }
-                    </div>
                 `;
+                
+                // הצגת כל המסלולים בקבוצה
+                entries.forEach((entry) => {
+                    const match = clientRisk ? checkRiskMatch(clientRisk, entry.pathwayRisk) : null;
+                    
+                    html += `
+                        <div class="analysis-card" style="background: white; border-right: 3px solid ${match ? match.color : riskColor}; margin-bottom: 15px; padding: 15px;">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px; flex-wrap: wrap; gap: 15px;">
+                                <div style="flex: 1; min-width: 200px;">
+                                    <h4 style="color: var(--primary); margin: 0 0 10px 0; font-size: 1.2rem;">
+                                        <i class="fas fa-layer-group"></i>
+                                        ${entry.productName}
+                                    </h4>
+                                    <div style="color: var(--text-light); font-size: 0.95rem;">
+                                        <i class="fas fa-route"></i> ${entry.maslulType}
+                                    </div>
+                                </div>
+                                <div style="text-align: left;">
+                                    <div style="font-size: 1.4rem; font-weight: bold; color: var(--success);">
+                                        ₪${entry.totalAmount.toLocaleString('he-IL', {maximumFractionDigits: 0})}
+                                    </div>
+                                    <div style="color: var(--text-light); font-size: 0.9rem;">
+                                        סך הכל
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
+                                <div style="background: #f8f9fa; padding: 10px; border-radius: 6px;">
+                                    <small style="color: var(--text-light);">רמת סיכון מסלול:</small><br>
+                                    <span class="status-badge ${entry.pathwayRisk === 'גבוה' ? 'status-danger' : entry.pathwayRisk === 'בינוני' ? 'status-warning' : 'status-good'}">
+                                        ${entry.pathwayRisk}
+                                    </span>
+                                </div>
+                                <div style="background: #f8f9fa; padding: 10px; border-radius: 6px;">
+                                    <small style="color: var(--text-light);">רמת סיכון לקוח:</small><br>
+                                    <span class="status-badge ${clientRisk === 'גבוה' ? 'status-danger' : clientRisk === 'בינוני' ? 'status-warning' : clientRisk === 'נמוך' ? 'status-good' : 'status-warning'}" style="${!clientRisk ? 'background: #fff3cd; color: #856404;' : ''}">
+                                        ${clientRisk || 'לא בוצע שאלון סיכון'}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            ${match ? 
+                                `<div style="margin-top: 15px; padding: 10px; background: white; border-radius: 6px;">
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <i class="fas ${match.icon}" style="color: ${match.color}; font-size: 1.2rem;"></i>
+                                        <span style="color: ${match.color}; font-weight: 500;">${match.message}</span>
+                                    </div>
+                                </div>` : 
+                                `<div style="margin-top: 15px; padding: 15px; background: #fff8e1; border-radius: 8px; border-right: 4px solid #ff9800;">
+                                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                                        <i class="fas fa-exclamation-circle" style="color: #ff9800; font-size: 1.2rem;"></i>
+                                        <span style="color: #e65100; font-weight: 600;">לא ניתן להחליט ללא אופי סיכון</span>
+                                    </div>
+                                    <button class="btn btn-primary" onclick="goToStep(1); setTimeout(openRiskQuestModalAndReturn, 300);" style="width: 100%; justify-content: center;">
+                                        <i class="fas fa-clipboard-list"></i>
+                                        מלא שאלון סיכון
+                                    </button>
+                                </div>`
+                            }
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`;
             });
             
             analysisContainer.innerHTML = html;
@@ -3000,6 +3060,91 @@
                     // צבע כללי לפי תשואה שנתית
                     const overallColor = comparisonYear.color;
                     
+                    // קבלת 3 המסלולים המובילים
+                    let top3TableHtml = '';
+                    if (typeof getTop3TracksByYield === 'function') {
+                        const clientTrackNameForSearch = getMaslul && getMaslul[0] && getMaslul[0].shemkupa ? getMaslul[0].shemkupa : pathwayName;
+                        
+                        // בדיקה אם זה תגמולים ולפיצויים עם אוכלוסיית יעד לא כלל האוכלוסיה
+                        const isTagmulimNonKlali = productName === 'תגמולים ואישית לפיצויים' && 
+                                                    getMaslul && getMaslul[0] && 
+                                                    getMaslul[0].ochlosiyayaad && 
+                                                    getMaslul[0].ochlosiyayaad !== 'כלל האוכלוסיה';
+                        
+                        // אם זה המקרה המיוחד - נשווה למסלול 50-60
+                        const maslulTypeForComparison = isTagmulimNonKlali ? '50-60' : maslulType;
+                        
+                        const top3Data = await getTop3TracksByYield(productName, maslulTypeForComparison, isTagmulimNonKlali ? null : clientTrackNameForSearch);
+                        
+                        if (top3Data && top3Data.top3 && top3Data.top3.length > 0) {
+                            top3TableHtml = `
+                                <div style="margin-top: 15px; background: white; padding: 15px; border-radius: 8px; border: 2px solid #e0e0e0;">
+                                    <div style="font-weight: bold; color: var(--text-dark); margin-bottom: 12px; font-size: 1rem;">
+                                        <i class="fas fa-trophy" style="color: #ffc107; margin-left: 8px;"></i>
+                                        3 המסלולים המובילים לפי תשואה ל-12 חודשים
+                                        ${isTagmulimNonKlali ? '<span style="font-size: 0.85rem; color: var(--text-light); font-weight: normal; margin-right: 8px;">(מסלול 50-60)</span>' : ''}
+                                    </div>
+                                    <table style="width: 100%; border-collapse: collapse;">
+                                        <thead>
+                                            <tr style="background: #f5f5f5; border-bottom: 2px solid #ddd;">
+                                                <th style="padding: 10px; text-align: right; font-weight: 600; color: var(--text-dark); width: 60px;">מיקום</th>
+                                                <th style="padding: 10px; text-align: right; font-weight: 600; color: var(--text-dark);">שם המסלול</th>
+                                                <th style="padding: 10px; text-align: right; font-weight: 600; color: var(--text-dark); width: 100px;">תשואה (12 חודשים)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                            `;
+                            
+                            // הוספת 3 הראשונים (אבל לא את המסלול של הלקוח אם זה המקרה המיוחד)
+                            top3Data.top3.forEach(track => {
+                                // אם זה המקרה המיוחד - לא נציג את המסלול של הלקוח
+                                if (isTagmulimNonKlali && track.isClientTrack) {
+                                    return; // דילוג על המסלול של הלקוח
+                                }
+                                
+                                const isClient = track.isClientTrack;
+                                const rowStyle = isClient ? 'background: #e8f5e9; font-weight: bold; border-right: 3px solid #4caf50;' : '';
+                                const medal = track.position === 1 ? '🥇' : track.position === 2 ? '🥈' : '🥉';
+                                top3TableHtml += `
+                                    <tr style="${rowStyle}">
+                                        <td style="padding: 10px; text-align: center; color: ${isClient ? '#4caf50' : 'var(--text-dark)'};">
+                                            ${medal} ${track.position}
+                                        </td>
+                                        <td style="padding: 10px; text-align: right; color: ${isClient ? '#2e7d32' : 'var(--text-dark)'};">
+                                            ${track.name} ${isClient ? '<span style="color: #4caf50; margin-right: 5px;">(המסלול שלך)</span>' : ''}
+                                        </td>
+                                        <td style="padding: 10px; text-align: right; color: ${isClient ? '#2e7d32' : 'var(--text-dark)'}; font-weight: ${isClient ? 'bold' : 'normal'};">
+                                            ${track.yield.toFixed(2)}%
+                                        </td>
+                                    </tr>
+                                `;
+                            });
+                            
+                            // אם המסלול של הלקוח לא ב-3 הראשונים, נוסיף אותו בשורה נוספת (רק אם זה לא המקרה המיוחד)
+                            if (!isTagmulimNonKlali && top3Data.clientTrack && !top3Data.clientTrack.isInTop3) {
+                                top3TableHtml += `
+                                    <tr style="background: #fff3cd; border-top: 2px dashed #ffc107; border-right: 3px solid #ffc107;">
+                                        <td style="padding: 10px; text-align: center; color: #856404; font-weight: bold;">
+                                            ${top3Data.clientPosition}
+                                        </td>
+                                        <td style="padding: 10px; text-align: right; color: #856404; font-weight: bold;">
+                                            ${top3Data.clientTrack.name} <span style="color: #ff9800; margin-right: 5px;">(המסלול שלך)</span>
+                                        </td>
+                                        <td style="padding: 10px; text-align: right; color: #856404; font-weight: bold;">
+                                            ${top3Data.clientTrack.yield.toFixed(2)}%
+                                        </td>
+                                    </tr>
+                                `;
+                            }
+                            
+                            top3TableHtml += `
+                                        </tbody>
+                                    </table>
+                                </div>
+                            `;
+                        }
+                    }
+                    
                     html += `
                         <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-right: 4px solid ${overallColor};">
                             <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
@@ -3123,6 +3268,9 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            <!-- טבלת 3 המסלולים המובילים -->
+                            ${top3TableHtml}
                         </div>
                     `;
                 }

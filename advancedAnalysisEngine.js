@@ -710,6 +710,114 @@ const AnalysisUtils = {
     }
 };
 
+// פונקציה לקבלת 3 המסלולים המובילים לפי תשואה ל-12 חודשים
+async function getTop3TracksByYield(productName, maslulType, clientTrackName) {
+    try {
+        // קביעת מקור הנתונים לפי המוצר
+        let sugmuzar = '';
+        if (productName === 'פוליסת ביטוח חיים משולב חיסכון') {
+            sugmuzar = 'פוליסות חסכון';
+        } else {
+            sugmuzar = productName;
+        }
+        
+        // בחירת בסיס הנתונים המתאים
+        let dataSource = [];
+        if (typeof datanetunimKlaliXM !== 'undefined' && datanetunimKlaliXM) {
+            if (sugmuzar === 'פוליסות חסכון' || sugmuzar === 'פוליסת ביטוח חיים משולב חיסכון') {
+                if (typeof datanetunimKlaliXB !== 'undefined' && datanetunimKlaliXB) {
+                    dataSource = datanetunimKlaliXB;
+                }
+            } else if (sugmuzar === 'קרנות חדשות' || sugmuzar === 'קרנות כלליות') {
+                if (typeof datanetunimKlaliXP !== 'undefined' && datanetunimKlaliXP) {
+                    dataSource = datanetunimKlaliXP;
+                }
+            } else {
+                dataSource = datanetunimKlaliXM;
+            }
+        }
+        
+        if (dataSource.length === 0) {
+            return { top3: [], clientPosition: null, clientTrack: null };
+        }
+        
+        // סינון לפי מוצר
+        let allTracks = dataSource.filter(item => item.mozar === sugmuzar);
+        
+        // סינון לפי סוג מסלול - שימוש בפונקציה filterMaslul אם קיימת
+        if (typeof filterMaslul === 'function') {
+            allTracks = await filterMaslul(maslulType, sugmuzar, 0);
+        } else {
+            // fallback - סינון בסיסי לפי שם המסלול
+            if (maslulType && maslulType !== 'כללי') {
+                const masFilter = typeof maslulFilters !== 'undefined' && maslulFilters[maslulType];
+                if (masFilter && typeof applyFilters === 'function') {
+                    allTracks = allTracks.filter(item => applyFilters(item, masFilter));
+                } else {
+                    allTracks = allTracks.filter(item => 
+                        item.shemkupa && item.shemkupa.includes(maslulType)
+                    );
+                }
+            }
+        }
+        
+        // סינון לפי "כלל האוכלוסיה" רק עבור קופת גמל וקרנות השתלמות
+        if (productName === 'קופת גמל להשקעה' || productName === 'קרנות השתלמות') {
+            allTracks = allTracks.filter(item => 
+                item.ochlosiyayaad && item.ochlosiyayaad === 'כלל האוכלוסיה'
+            );
+        }
+        
+        // סינון רק מסלולים עם תשואה תקינה
+        allTracks = allTracks.filter(item => 
+            item.tesuam !== undefined && 
+            item.tesuam !== null && 
+            item.tesuam !== '' && 
+            !isNaN(parseFloat(item.tesuam)) && 
+            parseFloat(item.tesuam) !== 0
+        );
+        
+        // מיון לפי תשואה יורדת
+        allTracks.sort((a, b) => parseFloat(b.tesuam) - parseFloat(a.tesuam));
+        
+        // מציאת המיקום של המסלול של הלקוח
+        let clientPosition = null;
+        let clientTrack = null;
+        const normalizedClientName = clientTrackName ? clientTrackName.trim() : '';
+        
+        for (let i = 0; i < allTracks.length; i++) {
+            const normalizedTrackName = allTracks[i].shemkupa ? allTracks[i].shemkupa.trim() : '';
+            if (normalizedTrackName === normalizedClientName) {
+                clientPosition = i + 1; // מיקום (1-based)
+                clientTrack = {
+                    position: clientPosition,
+                    name: allTracks[i].shemkupa,
+                    yield: parseFloat(allTracks[i].tesuam),
+                    isInTop3: clientPosition <= 3
+                };
+                break;
+            }
+        }
+        
+        // קבלת 3 הראשונים
+        const top3 = allTracks.slice(0, 3).map((track, index) => ({
+            position: index + 1,
+            name: track.shemkupa,
+            yield: parseFloat(track.tesuam),
+            isClientTrack: track.shemkupa && track.shemkupa.trim() === normalizedClientName
+        }));
+        
+        return {
+            top3: top3,
+            clientPosition: clientPosition,
+            clientTrack: clientTrack
+        };
+    } catch (error) {
+        console.error('שגיאה בקבלת 3 המסלולים המובילים:', error);
+        return { top3: [], clientPosition: null, clientTrack: null };
+    }
+}
+
 // טעינת נתונים בעת טעינת הדף
 document.addEventListener('DOMContentLoaded', function() {
     AnalysisStorage.load();
@@ -723,4 +831,5 @@ window.PortfolioAnalyzer = PortfolioAnalyzer;
 window.QualityAnalyzer = QualityAnalyzer;
 window.GapAnalyzer = GapAnalyzer;
 window.AnalysisUtils = AnalysisUtils;
+window.getTop3TracksByYield = getTop3TracksByYield;
 
