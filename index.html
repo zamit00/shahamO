@@ -563,6 +563,22 @@
 		}
 	}
 
+	@keyframes scaleInFromCenter {
+		from {
+			opacity: 0;
+			transform: scale(0.3);
+		}
+		to {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+
+	.intro-content {
+		animation: scaleInFromCenter 1.4s ease-out;
+		transform-origin: center;
+	}
+
 	/* CSS for tools dropdown - same styling as calculator dropdown */
 	.tools-dropdown {
 		position: relative;
@@ -8250,16 +8266,26 @@
     }
     function updateAdviceButton() {
         const adviceBtn = document.getElementById('adviceBtnFloat');
- //       if (adviceBtn && window.innerWidth <= 768) {
+        if (adviceBtn && window.innerWidth <= 768) {
             if (window.pageYOffset > 300) {
                 adviceBtn.classList.add('show');
             } else {
                 adviceBtn.classList.remove('show');
             }
+        }
+        else if(adviceBtn && window.innerWidth > 768){
+            if (window.pageYOffset > 600) {
+                adviceBtn.classList.add('show');
+            } else {
+                adviceBtn.classList.remove('show');
+            }
+        }
+        }
+        
      //   } else if (adviceBtn) {
      //       adviceBtn.classList.remove('show');
      //   }
-    }
+    
     
     window.addEventListener('scroll', updateScrollButton);
     window.addEventListener('resize', updateScrollButton);

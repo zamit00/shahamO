@@ -961,6 +961,44 @@
             }
         }
 
+        /* Floating Advice Button */
+        #adviceBtnFloat {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            background-color: white;
+            color: #0a4512;
+            font-weight: bold;
+            border: 2px solid #0183AA;
+            z-index: 999;
+            bottom: 20vh;
+            left: 50%;
+            transform: translateX(-50%);
+            width: clamp(150px, 30%, 200px);
+            height: 45px;
+            padding: 0;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px #0183AA;
+            transition: all 0.3s ease;
+        }
+
+        #adviceBtnFloat span {
+            display: block;
+            text-align: center;
+        }
+
+        #adviceBtnFloat:hover {
+            transform: translateX(-50%) translateY(-3px);
+            box-shadow: 0 6px 16px #0183AA;
+        }
+
+        #adviceBtnFloat.show {
+            display: flex;
+        }
+
     </style>
 </head>
 <body>
@@ -968,6 +1006,11 @@
     <!-- Scroll to Top Button (Mobile Only) -->
     <button id="scrollToTopBtn" onclick="scrollToTop()" title="חזור למעלה">
         <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <!-- Floating Advice Button (shown in step 2) -->
+    <button id="adviceBtnFloat" onclick="openConsultationForm()" title="קבל ייעוץ חינם">
+        <span>קבל ייעוץ חינם</span>
     </button>
     
     <!-- Header with Navigation -->
@@ -1406,6 +1449,9 @@
             } else if (stepNumber === 4) {
                 generateRecommendations();
             }
+            
+            // עדכון כפתור הייעוץ - יופיע רק בשלב 2
+            setTimeout(updateAdviceButton, 100);
             
             // Scroll to top
             window.scrollTo({
@@ -3661,9 +3707,42 @@
         window.addEventListener('scroll', updateScrollButton);
         window.addEventListener('resize', updateScrollButton);
         
+        // Show/Hide advice button on scroll (only in step 2)
+        function updateAdviceButton() {
+            const adviceBtn = document.getElementById('adviceBtnFloat');
+            if (!adviceBtn) return;
+            
+            // בדיקה אם אנחנו בשלב 2
+            const step2Panel = document.getElementById('step-2');
+            const isStep2Visible = step2Panel && (step2Panel.classList.contains('active') || step2Panel.style.display !== 'none');
+            
+            if (!isStep2Visible) {
+                adviceBtn.classList.remove('show');
+                return;
+            }
+            
+            if (window.innerWidth <= 768) {
+                if (window.pageYOffset > 300) {
+                    adviceBtn.classList.add('show');
+                } else {
+                    adviceBtn.classList.remove('show');
+                }
+            } else if (window.innerWidth > 768) {
+                if (window.pageYOffset > 600) {
+                    adviceBtn.classList.add('show');
+                } else {
+                    adviceBtn.classList.remove('show');
+                }
+            }
+        }
+        
+        window.addEventListener('scroll', updateAdviceButton);
+        window.addEventListener('resize', updateAdviceButton);
+        
         // Initialize on load
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(updateScrollButton, 100);
+            setTimeout(updateAdviceButton, 100);
         });
         
         // פונקציה לסגירת ניתוח מתקדם ומחיקת נתונים
