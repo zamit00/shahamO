@@ -3762,10 +3762,173 @@
             const container = document.getElementById('recommendationsReport');
             container.innerHTML = '<div class="analysis-card" style="text-align: center; padding: 40px;"><i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: var(--primary);"></i><p style="margin-top: 20px; color: var(--text-light);">מייצר המלצות מותאמות אישית...</p></div>';
             
-            // כאן יבוא הקוד להמלצות
-            setTimeout(() => {
-                container.innerHTML = '<div class="analysis-card"><h3><i class="fas fa-check"></i> דוח המלצות הושלם</h3><p>תוצאות יוצגו כאן בקרוב</p></div>';
-            }, 500);
+            // קריאת נתוני הפערים משלב 3
+            const gapsData = window.gapsData || {
+                riskGaps: [],
+                feeGaps: [],
+                returnGaps: []
+            };
+            
+            const riskGaps = gapsData.riskGaps || [];
+            const feeGaps = gapsData.feeGaps || [];
+            const returnGaps = gapsData.returnGaps || [];
+            
+            // יצירת המלצות
+            const recommendations = [];
+            
+            // המלצות לפערי סיכון
+            if (riskGaps.length > 0) {
+                riskGaps.forEach(gap => {
+                    recommendations.push({
+                        category: 'סיכון',
+                        priority: 'גבוהה',
+                        icon: '⚠️',
+                        text: `מומלץ לבדוק את המסלול "${gap.maslul}" בתוכנית "${gap.tochnit}" - המסלול לא מתאים לפרופיל הסיכון שלך (${gap.clientRisk}). ${gap.gap}`,
+                        amount: gap.amount
+                    });
+                });
+            }
+            
+            // המלצות לדמי ניהול גבוהים
+            if (feeGaps.length > 0) {
+                feeGaps.forEach(gap => {
+                    const feeTypeText = gap.feeType === 'דמי ניהול שנתיים' ? 'דמי ניהול שנתיים' : 'דמי ניהול הפקדה';
+                    recommendations.push({
+                        category: 'דמי ניהול',
+                        priority: 'גבוהה',
+                        icon: '💰',
+                        text: `מומלץ לבדוק את ${feeTypeText} במסלול "${gap.maslulType}" בתוכנית "${gap.tochnit}" - דמי הניהול שלך (${gap.clientFee.toFixed(2)}%) גבוהים מהממוצע בענף (${gap.avgFee.toFixed(2)}%)`,
+                        amount: gap.amount,
+                        diff: gap.diff
+                    });
+                });
+            }
+            
+            // המלצות לפערי תשואות
+            if (returnGaps.length > 0) {
+                returnGaps.forEach(gap => {
+                    recommendations.push({
+                        category: 'ביצועים',
+                        priority: gap.rating === 'חלש' ? 'גבוהה' : 'בינונית',
+                        icon: '📈',
+                        text: `מומלץ לבדוק את ביצועי המסלול "${gap.maslulType}" בתוכנית "${gap.tochnit}" - התשואה שלך (${gap.clientReturn.toFixed(2)}%) נמוכה משמעותית מהממוצע בענף (${gap.avgReturn.toFixed(2)}%)`,
+                        amount: gap.amount,
+                        rating: gap.rating
+                    });
+                });
+            }
+            
+            // אם אין המלצות
+            if (recommendations.length === 0) {
+                container.innerHTML = `
+                    <div class="analysis-card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 40px; text-align: center; margin-bottom: 30px;">
+                        <h2 style="margin: 0 0 20px 0; font-size: clamp(1.5rem, 4vw, 2rem);">
+                            <i class="fas fa-trophy"></i>
+                            כל הכבוד!
+                        </h2>
+                        <p style="margin: 0; font-size: clamp(1rem, 2.5vw, 1.2rem); line-height: 1.8;">
+                            לא נמצאו פערים משמעותיים בתיק ההשקעות שלך.<br>
+                            התיק מנוהל בצורה טובה ומתאים לפרופיל שלך!
+                        </p>
+                    </div>
+                    <div class="analysis-card" style="border-right: 4px solid #28a745; padding: 30px;">
+                        <h3 style="color: #28a745; margin: 0 0 15px 0;">
+                            <i class="fas fa-check-circle"></i>
+                            סיכום
+                        </h3>
+                        <p style="color: var(--text); line-height: 1.8; margin: 0;">
+                            התיק שלך מאוזן ומתאים לפרופיל הסיכון שלך. המשך לעקוב אחרי הביצועים ולהתעדכן במוצרים חדשים בשוק.
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // מיון לפי עדיפות
+            const priorityOrder = { 'גבוהה': 1, 'בינונית': 2, 'נמוכה': 3 };
+            recommendations.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+            
+            // בניית HTML להמלצות
+            let html = `
+                <div class="analysis-card" style="background: linear-gradient(180deg, #62B1C8 0%, #2494B5 50%, #0183AA 100%); color: white; margin-bottom: 30px; padding: 30px; text-align: center;">
+                    <h2 style="margin: 0 0 10px 0; font-size: clamp(1.5rem, 4vw, 2rem);">
+                        <i class="fas fa-lightbulb"></i>
+                        דוח המלצות מותאמות אישית
+                    </h2>
+                    <p style="margin: 0; opacity: 0.9; font-size: clamp(0.9rem, 2.5vw, 1.1rem);">
+                        המלצות לפעולה בהתאם לניתוח התיק שלך
+                    </p>
+                </div>
+                <div class="analysis-card" style="background: ${recommendations.length > 0 ? '#fff3cd' : '#d4edda'}; border-right: 4px solid ${recommendations.length > 0 ? '#ffc107' : '#28a745'}; margin-bottom: 30px;">
+                    <h3 style="color: ${recommendations.length > 0 ? '#856404' : '#155724'}; margin: 0 0 15px 0;">
+                        <i class="fas ${recommendations.length > 0 ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i>
+                        סיכום כללי
+                    </h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 15px;">
+                        <div style="background: white; padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 2rem; font-weight: bold; color: var(--primary);">
+                                ${recommendations.length}
+                            </div>
+                            <div style="color: var(--text-light); font-size: 0.9rem;">המלצות לפעולה</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // קיבוץ לפי קטגוריות
+            const byCategory = {};
+            recommendations.forEach(rec => {
+                if (!byCategory[rec.category]) {
+                    byCategory[rec.category] = [];
+                }
+                byCategory[rec.category].push(rec);
+            });
+            
+            // הצגה לפי קטגוריות
+            const categoryColors = {
+                'סיכון': { bg: '#ffebee', border: '#dc3545', icon: '#dc3545' },
+                'דמי ניהול': { bg: '#fff3e0', border: '#ff5722', icon: '#ff5722' },
+                'ביצועים': { bg: '#fff9c4', border: '#ffc107', icon: '#f57c00' }
+            };
+            
+            Object.entries(byCategory).forEach(([category, recs]) => {
+                const colors = categoryColors[category] || { bg: '#f5f5f5', border: '#666', icon: '#666' };
+                
+                html += `
+                    <div class="analysis-card" style="border-right: 4px solid ${colors.border}; margin-bottom: 30px;">
+                        <h3 style="color: ${colors.icon}; margin: 0 0 20px 0;">
+                            ${recs[0].icon} ${category} (${recs.length})
+                        </h3>
+                `;
+                
+                recs.forEach(rec => {
+                    html += `
+                        <div style="background: ${colors.bg}; padding: 20px; border-radius: 8px; margin-bottom: 15px; border-right: 3px solid ${colors.border};">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;">
+                                <div style="flex: 1; min-width: 250px;">
+                                    <div style="font-weight: bold; color: var(--text-dark); margin-bottom: 8px; font-size: 1.05rem;">
+                                        ${rec.text}
+                                    </div>
+                                </div>
+                                <div style="text-align: left;">
+                                    ${rec.amount ? `<div style="font-weight: bold; color: var(--primary); font-size: 1.1rem;">
+                                        ₪${rec.amount.toLocaleString('he-IL', {maximumFractionDigits: 0})}
+                                    </div>` : ''}
+                                    <div style="margin-top: 5px;">
+                                        <span style="background: ${rec.priority === 'גבוהה' ? '#dc3545' : '#ffc107'}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold;">
+                                            ${rec.priority}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`;
+            });
+            
+            container.innerHTML = html;
         }
         
         // Placeholder function for PDF generation
@@ -4503,6 +4666,13 @@
                     </div>
                 `;
             }
+            
+            // שמירת הנתונים לשימוש בשלב 4
+            window.gapsData = {
+                riskGaps: riskGaps,
+                feeGaps: feeGaps,
+                returnGaps: returnGaps
+            };
             
             gapsContainer.innerHTML = html;
         }
