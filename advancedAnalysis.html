@@ -959,6 +959,23 @@
                 margin-left: auto !important;
                 margin-right: auto !important;
             }
+            
+            /* המלצות במסכים קטנים - סכום ועדיפות למעלה, טקסט למטה */
+            .recommendation-header {
+                flex-direction: column !important;
+            }
+            
+            .recommendation-meta {
+                order: 1 !important;
+                width: 100% !important;
+                margin-bottom: 10px !important;
+                text-align: right !important;
+            }
+            
+            .recommendation-text {
+                order: 2 !important;
+                width: 100% !important;
+            }
         }
 
         /* Floating Advice Button */
@@ -3822,21 +3839,21 @@
             if (recommendations.length === 0) {
                 container.innerHTML = `
                     <div class="analysis-card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 40px; text-align: center; margin-bottom: 30px;">
-                        <h2 style="margin: 0 0 20px 0; font-size: clamp(1.5rem, 4vw, 2rem);">
+                        <h2 style="margin: 0 0 20px 0; font-size: clamp(1.2rem, 4vw, 2rem);">
                             <i class="fas fa-trophy"></i>
                             כל הכבוד!
                         </h2>
-                        <p style="margin: 0; font-size: clamp(1rem, 2.5vw, 1.2rem); line-height: 1.8;">
+                        <p style="margin: 0; font-size: clamp(0.9rem, 2.5vw, 1.2rem); line-height: 1.8;">
                             לא נמצאו פערים משמעותיים בתיק ההשקעות שלך.<br>
                             התיק מנוהל בצורה טובה ומתאים לפרופיל שלך!
                         </p>
                     </div>
                     <div class="analysis-card" style="border-right: 4px solid #28a745; padding: 30px;">
-                        <h3 style="color: #28a745; margin: 0 0 15px 0;">
+                        <h3 style="color: #28a745; margin: 0 0 15px 0; font-size: clamp(1rem, 3vw, 1.2rem);">
                             <i class="fas fa-check-circle"></i>
                             סיכום
                         </h3>
-                        <p style="color: var(--text); line-height: 1.8; margin: 0;">
+                        <p style="color: var(--text); line-height: 1.8; margin: 0; font-size: clamp(0.85rem, 2.5vw, 1rem);">
                             התיק שלך מאוזן ומתאים לפרופיל הסיכון שלך. המשך לעקוב אחרי הביצועים ולהתעדכן במוצרים חדשים בשוק.
                         </p>
                     </div>
@@ -3851,25 +3868,25 @@
             // בניית HTML להמלצות
             let html = `
                 <div class="analysis-card" style="background: linear-gradient(180deg, #62B1C8 0%, #2494B5 50%, #0183AA 100%); color: white; margin-bottom: 30px; padding: 30px; text-align: center;">
-                    <h2 style="margin: 0 0 10px 0; font-size: clamp(1.5rem, 4vw, 2rem);">
+                    <h2 style="margin: 0 0 10px 0; font-size: clamp(1.2rem, 4vw, 2rem);">
                         <i class="fas fa-lightbulb"></i>
                         דוח המלצות מותאמות אישית
                     </h2>
-                    <p style="margin: 0; opacity: 0.9; font-size: clamp(0.9rem, 2.5vw, 1.1rem);">
+                    <p style="margin: 0; opacity: 0.9; font-size: clamp(0.8rem, 2.5vw, 1.1rem);">
                         המלצות לפעולה בהתאם לניתוח התיק שלך
                     </p>
                 </div>
                 <div class="analysis-card" style="background: ${recommendations.length > 0 ? '#fff3cd' : '#d4edda'}; border-right: 4px solid ${recommendations.length > 0 ? '#ffc107' : '#28a745'}; margin-bottom: 30px;">
-                    <h3 style="color: ${recommendations.length > 0 ? '#856404' : '#155724'}; margin: 0 0 15px 0;">
+                    <h3 style="color: ${recommendations.length > 0 ? '#856404' : '#155724'}; margin: 0 0 15px 0; font-size: clamp(1rem, 3vw, 1.2rem);">
                         <i class="fas ${recommendations.length > 0 ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i>
                         סיכום כללי
                     </h3>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 15px;">
-                        <div style="background: white; padding: 15px; border-radius: 8px; text-align: center;">
-                            <div style="font-size: 2rem; font-weight: bold; color: var(--primary);">
+                        <div style="background: white; padding: clamp(10px, 2.5vw, 15px); border-radius: 8px; text-align: center;">
+                            <div style="font-size: clamp(1.5rem, 5vw, 2rem); font-weight: bold; color: var(--primary);">
                                 ${recommendations.length}
                             </div>
-                            <div style="color: var(--text-light); font-size: 0.9rem;">המלצות לפעולה</div>
+                            <div style="color: var(--text-light); font-size: clamp(0.75rem, 2vw, 0.9rem);">המלצות לפעולה</div>
                         </div>
                     </div>
                 </div>
@@ -3896,26 +3913,26 @@
                 
                 html += `
                     <div class="analysis-card" style="border-right: 4px solid ${colors.border}; margin-bottom: 30px;">
-                        <h3 style="color: ${colors.icon}; margin: 0 0 20px 0;">
+                        <h3 style="color: ${colors.icon}; margin: 0 0 20px 0; font-size: clamp(1rem, 3vw, 1.3rem);">
                             ${recs[0].icon} ${category} (${recs.length})
                         </h3>
                 `;
                 
                 recs.forEach(rec => {
                     html += `
-                        <div style="background: ${colors.bg}; padding: 20px; border-radius: 8px; margin-bottom: 15px; border-right: 3px solid ${colors.border};">
-                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;">
-                                <div style="flex: 1; min-width: 250px;">
-                                    <div style="font-weight: bold; color: var(--text-dark); margin-bottom: 8px; font-size: 1.05rem;">
+                        <div class="recommendation-item" style="background: ${colors.bg}; padding: clamp(12px, 3vw, 20px); border-radius: 8px; margin-bottom: 15px; border-right: 3px solid ${colors.border}; overflow: hidden;">
+                            <div class="recommendation-header" style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;">
+                                <div class="recommendation-text" style="flex: 1; min-width: 0; max-width: 100%; word-wrap: break-word; overflow-wrap: break-word;">
+                                    <div style="font-weight: bold; color: var(--text-dark); margin-bottom: 8px; font-size: clamp(0.85rem, 2.5vw, 1.05rem); line-height: 1.5; word-wrap: break-word; overflow-wrap: break-word;">
                                         ${rec.text}
                                     </div>
                                 </div>
-                                <div style="text-align: left;">
-                                    ${rec.amount ? `<div style="font-weight: bold; color: var(--primary); font-size: 1.1rem;">
+                                <div class="recommendation-meta" style="text-align: left; flex-shrink: 0; min-width: fit-content;">
+                                    ${rec.amount ? `<div style="font-weight: bold; color: var(--primary); font-size: clamp(0.9rem, 2.5vw, 1.1rem); white-space: nowrap;">
                                         ₪${rec.amount.toLocaleString('he-IL', {maximumFractionDigits: 0})}
                                     </div>` : ''}
                                     <div style="margin-top: 5px;">
-                                        <span style="background: ${rec.priority === 'גבוהה' ? '#dc3545' : '#ffc107'}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold;">
+                                        <span style="background: ${rec.priority === 'גבוהה' ? '#dc3545' : '#ffc107'}; color: white; padding: 4px 8px; border-radius: 4px; font-size: clamp(0.7rem, 2vw, 0.8rem); font-weight: bold; white-space: nowrap; display: inline-block;">
                                             ${rec.priority}
                                         </span>
                                     </div>
