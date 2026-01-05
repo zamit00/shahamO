@@ -3428,8 +3428,13 @@
     text-align: center;        /* כדי לוודא שהטקסט בתוך ה-span ממורכז */
 }
 
-        #scrollToTopBtn:hover,#adviceBtnFloat:hover{
+        #scrollToTopBtn:hover {
             transform: translateY(-3px);
+            box-shadow: 0 6px 16px #0183AA;
+        }
+        
+        #adviceBtnFloat:hover {
+            transform: translateX(-50%) translateY(-3px);
             box-shadow: 0 6px 16px #0183AA;
         }
         
@@ -6843,7 +6848,7 @@
         function displayDataOnScreen(pratimIshim, sumSugMutzar, pathwaySummary, statusData, pitzuimData) {
             // הצגת הפרטים האישיים
             const personalInfoDiv = document.getElementById('personalInfo');
-            personalInfoDiv.innerHTML = `
+          /*  personalInfoDiv.innerHTML = `
                 <div style="margin-bottom: 15px;">
                     <strong>👤 שם פרטי:</strong> ${pratimIshim.shemPrati || 'לא זמין'}
                 </div>
@@ -6863,8 +6868,27 @@
                 <div style="margin-bottom: 15px;">
                     <strong>📧 כתובת דו"אל:</strong> ${pratimIshim.eMail || 'לא זמין'}
                 </div>
-            `;
+            `;*/
+            personalInfoDiv.innerHTML = `
+                <div style="margin-bottom: 15px;">
+                    <strong>👤 שם פרטי:</strong> ${"ישראל"}
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <strong>👥 שם משפחה:</strong> ${"ישראלי"}
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <strong>🆔 מספר זיהוי:</strong> ${'1234567890'}
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <strong>🎂 גיל:</strong> ${"57"}
+                </div>
 
+                <div style="margin-bottom: 15px;">
+                    <strong>📱 מספר סלולרי:</strong> ${'052-1234567'}
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <strong>📧 כתובת דו"אל:</strong> ${'israeli@gmail.com'}
+                </div>`
             // הוספת אלמנט שיווקי לקבלת ייעוץ פנסיוני
             personalInfoDiv.innerHTML += `
                 <div style="margin-top: 35px; padding: 20px; background: linear-gradient(135deg, #0183AA, #764ba2); border-radius: 15px; text-align: center;

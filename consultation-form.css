@@ -19,16 +19,70 @@
 }
 
 #consultationFormModal > div {
-    background: white;
-    border-radius: 20px;
-    padding: 40px;
-    max-width: 500px;
-    width: 90%;
-    max-height: 95vh;
-    overflow-y: auto;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     animation: slideInFromTop 0.4s ease;
     position: relative;
+}
+
+#consultationFormModal .simple-form-container {
+    background-color: #0183AA;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+#consultationFormModal .agent-bg {
+    background-color: #0183AA;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+#consultationFormModal .agent-form .input-col {
+    margin-bottom: 20px;
+}
+
+#consultationFormModal .agent-form input[type="text"], 
+#consultationFormModal .agent-form input[type="email"], 
+#consultationFormModal .agent-form input[type="tel"], 
+#consultationFormModal .agent-form select {
+    width: 100%;
+    padding: 12px;
+    background-color: #fff;
+    border: 1px solid #0183AA;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #333;
+}
+
+#consultationFormModal .submit-col {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#consultationFormModal .submit-col p {
+    text-align: center;
+    margin: 0;
+    width: 100%;
+}
+
+#consultationFormModal .submit-col p input[type="submit"] {
+    background-color: #3aafe6;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    max-width: 300px;
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+#consultationFormModal .submit-col p input[type="submit"]:hover {
+    background-color: #139276;
 }
 
 #consultationFormModal .close-modal-btn {
@@ -71,31 +125,24 @@
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
-    #consultationFormModal > div {
-        padding: 25px !important;
-        max-width: 95% !important;
+    #consultationFormModal .simple-form-container {
+        padding: 15px !important;
         width: 95% !important;
-        max-height: 70vh !important;
-        margin: 0 !important;
+        max-width: 95% !important;
     }
     
-    #consultationFormModal h3 {
-        font-size: 1.5rem !important;
+    #consultationFormModal .agent-bg {
+        padding: 15px !important;
     }
     
-    #consultationFormModal p {
-        font-size: 0.95rem !important;
+    #consultationFormModal .agent-form .input-col {
+        margin-bottom: 10px !important;
     }
     
-    #consultationFormModal input,
-    #consultationFormModal textarea {
-        font-size: 1rem !important;
-        padding: 12px !important;
-    }
-    
-    #consultationFormModal button {
-        padding: 14px 24px !important;
-        font-size: 1rem !important;
+    #consultationFormModal .agent-form input,
+    #consultationFormModal .agent-form select {
+        font-size: 16px !important;
+        padding: 10px !important;
     }
 }
 

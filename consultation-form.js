@@ -36,19 +36,39 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-// Handle form submission
+// Handle form submission and customer radio buttons
 document.addEventListener('DOMContentLoaded', function() {
     const consultationForm = document.getElementById('consultationForm');
     if (consultationForm) {
+        // Handle customer radio buttons - show/hide agent name field
+        const customerRadios = consultationForm.querySelectorAll('input[name="is_customer"]');
+        const agentNameField = document.getElementById('agentNameField');
+        
+        customerRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'כן' && agentNameField) {
+                    agentNameField.style.display = 'block';
+                } else if (agentNameField) {
+                    agentNameField.style.display = 'none';
+                    document.getElementById('current_agent_text').value = '';
+                }
+            });
+        });
+        
+        // Handle form submission
         consultationForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
             // איסוף הנתונים מהטופס
             const formData = {
-                fullName: document.getElementById('fullName')?.value,
-                phoneNumber: document.getElementById('phoneNumber')?.value,
+                firstname: document.getElementById('firstname')?.value,
+                lastname: document.getElementById('lastname')?.value,
+                phone: document.getElementById('phone')?.value,
                 email: document.getElementById('email')?.value,
-                message: document.getElementById('message')?.value
+                messageType: document.getElementById('message-type')?.value,
+                isCustomer: consultationForm.querySelector('input[name="is_customer"]:checked')?.value,
+                agentName: document.getElementById('current_agent_text')?.value,
+                ppAgree: document.getElementById('pp-agree')?.checked
             };
             
             // כאן תוכל להוסיף קוד לשליחת הנתונים לשרת

@@ -4623,8 +4623,8 @@
                                     </div>
                                     <div style="text-align: center;">
                                         <small style="color: var(--text-light);">הפרש</small>
-                                        <div style="font-weight: bold; color: ${gap.rating === 'חלש' ? '#dc3545' : '#ff5722'}; font-size: 1.1rem;">
-                                            ${gap.diff.toFixed(2)}%
+                                        <div style="font-weight: bold; color: ${gap.rating === 'חלש' ? '#dc3545' : '#ff5722'}; font-size: 1.1rem; direction: ltr; text-align: center;">
+                                            ${gap.diff < 0 ? '-' : ''}${Math.abs(gap.diff).toFixed(2)}%
                                         </div>
                                     </div>
                                 </div>
