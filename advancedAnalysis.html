@@ -999,6 +999,99 @@
             display: flex;
         }
 
+        /* Top 3 Tracks Table Responsive Styles */
+        .top3-tracks-table {
+            font-size: clamp(0.75rem, 1.8vw, 0.85rem);
+        }
+
+        @media (max-width: 768px) {
+            .top3-tracks-table {
+                font-size: 0.75rem;
+            }
+
+            .top3-tracks-table th,
+            .top3-tracks-table td {
+                padding: 6px 5px !important;
+                font-size: 0.75rem !important;
+            }
+
+            .top3-tracks-table th:first-child,
+            .top3-tracks-table td:first-child {
+                min-width: 50px !important;
+            }
+
+            .top3-tracks-table th:nth-child(2),
+            .top3-tracks-table td:nth-child(2) {
+                min-width: 120px !important;
+            }
+
+            .top3-tracks-table th:last-child,
+            .top3-tracks-table td:last-child {
+                min-width: 100px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .top3-tracks-table {
+                display: block;
+                width: 100% !important;
+                min-width: 100% !important;
+                border-collapse: separate;
+                border-spacing: 0;
+            }
+
+            .top3-tracks-table thead {
+                display: none;
+            }
+
+            .top3-tracks-table tbody {
+                display: block;
+                width: 100%;
+            }
+
+            .top3-tracks-table tr {
+                display: block;
+                width: 100%;
+                margin-bottom: 10px;
+                border: 1px solid #e0e0e0;
+                border-radius: 6px;
+                overflow: hidden;
+                background: white;
+            }
+
+            .top3-tracks-table td {
+                display: block;
+                width: 100% !important;
+                padding: 8px 10px !important;
+                text-align: center !important;
+                border: none !important;
+                border-bottom: 1px solid #f0f0f0;
+            }
+
+            .top3-tracks-table td:first-child {
+                background: #f8f9fa;
+                font-weight: bold;
+                border-bottom: 2px solid #ddd;
+                text-align: center !important;
+                font-size: 0.85rem !important;
+            }
+
+            .top3-tracks-table td:nth-child(2) {
+                min-width: 100% !important;
+                padding-top: 10px !important;
+                font-size: 0.8rem !important;
+            }
+
+            .top3-tracks-table td:last-child {
+                border-bottom: none;
+                font-weight: 600;
+                padding-bottom: 10px !important;
+                padding-top: 5px !important;
+                font-size: 0.9rem !important;
+                color: var(--primary);
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -3124,21 +3217,22 @@
                         
                         if (top3Data && top3Data.top3 && top3Data.top3.length > 0) {
                             top3TableHtml = `
-                                <div style="margin-top: 15px; background: white; padding: 15px; border-radius: 8px; border: 2px solid #e0e0e0;">
-                                    <div style="font-weight: bold; color: var(--text-dark); margin-bottom: 12px; font-size: 1rem;">
-                                        <i class="fas fa-trophy" style="color: #ffc107; margin-left: 8px;"></i>
+                                <div style="margin-top: 15px; background: white; padding: 12px; border-radius: 8px; border: 2px solid #e0e0e0;">
+                                    <div style="font-weight: bold; color: var(--text-dark); margin-bottom: 10px; font-size: clamp(0.75rem, 2vw, 0.9rem);">
+                                        <i class="fas fa-trophy" style="color: #ffc107; margin-left: 6px; font-size: 0.9em;"></i>
                                         3 המסלולים המובילים לפי תשואה ל-12 חודשים
-                                        ${isTagmulimNonKlali ? '<span style="font-size: 0.85rem; color: var(--text-light); font-weight: normal; margin-right: 8px;">(מסלול 50-60)</span>' : ''}
+                                        ${isTagmulimNonKlali ? '<span style="font-size: 0.75em; color: var(--text-light); font-weight: normal; margin-right: 6px;">(מסלול 50-60)</span>' : ''}
                                     </div>
-                                    <table style="width: 100%; border-collapse: collapse;">
-                                        <thead>
-                                            <tr style="background: #f5f5f5; border-bottom: 2px solid #ddd;">
-                                                <th style="padding: 10px; text-align: right; font-weight: 600; color: var(--text-dark); width: 60px;">מיקום</th>
-                                                <th style="padding: 10px; text-align: right; font-weight: 600; color: var(--text-dark);">שם המסלול</th>
-                                                <th style="padding: 10px; text-align: right; font-weight: 600; color: var(--text-dark); width: 100px;">תשואה (12 חודשים)</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                    <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+                                        <table class="top3-tracks-table" style="width: 100%; min-width: 280px; border-collapse: collapse;">
+                                            <thead>
+                                                <tr style="background: #f5f5f5; border-bottom: 2px solid #ddd;">
+                                                    <th style="padding: clamp(6px, 1.5vw, 10px); text-align: center; font-weight: 600; color: var(--text-dark); min-width: 55px; white-space: nowrap; font-size: clamp(0.7rem, 1.8vw, 0.85rem);">מיקום</th>
+                                                    <th style="padding: clamp(6px, 1.5vw, 10px); text-align: right; font-weight: 600; color: var(--text-dark); min-width: 140px; font-size: clamp(0.7rem, 1.8vw, 0.85rem);">שם המסלול</th>
+                                                    <th style="padding: clamp(6px, 1.5vw, 10px); text-align: right; font-weight: 600; color: var(--text-dark); min-width: 110px; white-space: nowrap; font-size: clamp(0.7rem, 1.8vw, 0.85rem);">תשואה (12 חודשים)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
                             `;
                             
                             // הוספת 3 הראשונים (אבל לא את המסלול של הלקוח אם זה המקרה המיוחד)
@@ -3153,13 +3247,13 @@
                                 const medal = track.position === 1 ? '🥇' : track.position === 2 ? '🥈' : '🥉';
                                 top3TableHtml += `
                                     <tr style="${rowStyle}">
-                                        <td style="padding: 10px; text-align: center; color: ${isClient ? '#4caf50' : 'var(--text-dark)'};">
+                                        <td style="padding: clamp(6px, 1.5vw, 10px); text-align: center; color: ${isClient ? '#4caf50' : 'var(--text-dark)'}; white-space: nowrap; font-size: clamp(0.7rem, 1.8vw, 0.85rem);">
                                             ${medal} ${track.position}
                                         </td>
-                                        <td style="padding: 10px; text-align: right; color: ${isClient ? '#2e7d32' : 'var(--text-dark)'};">
-                                            ${track.name} ${isClient ? '<span style="color: #4caf50; margin-right: 5px;">(המסלול שלך)</span>' : ''}
+                                        <td style="padding: clamp(6px, 1.5vw, 10px); text-align: right; color: ${isClient ? '#2e7d32' : 'var(--text-dark)'}; word-wrap: break-word; overflow-wrap: break-word; font-size: clamp(0.7rem, 1.8vw, 0.85rem);">
+                                            ${track.name} ${isClient ? '<span style="color: #4caf50; margin-right: 4px; white-space: nowrap; font-size: 0.85em;">(המסלול שלך)</span>' : ''}
                                         </td>
-                                        <td style="padding: 10px; text-align: right; color: ${isClient ? '#2e7d32' : 'var(--text-dark)'}; font-weight: ${isClient ? 'bold' : 'normal'};">
+                                        <td style="padding: clamp(6px, 1.5vw, 10px); text-align: right; color: ${isClient ? '#2e7d32' : 'var(--text-dark)'}; font-weight: ${isClient ? 'bold' : 'normal'}; white-space: nowrap; font-size: clamp(0.7rem, 1.8vw, 0.85rem);">
                                             ${track.yield.toFixed(2)}%
                                         </td>
                                     </tr>
@@ -3170,13 +3264,13 @@
                             if (!isTagmulimNonKlali && top3Data.clientTrack && !top3Data.clientTrack.isInTop3) {
                                 top3TableHtml += `
                                     <tr style="background: #fff3cd; border-top: 2px dashed #ffc107; border-right: 3px solid #ffc107;">
-                                        <td style="padding: 10px; text-align: center; color: #856404; font-weight: bold;">
+                                        <td style="padding: clamp(6px, 1.5vw, 10px); text-align: center; color: #856404; font-weight: bold; white-space: nowrap; font-size: clamp(0.7rem, 1.8vw, 0.85rem);">
                                             ${top3Data.clientPosition}
                                         </td>
-                                        <td style="padding: 10px; text-align: right; color: #856404; font-weight: bold;">
-                                            ${top3Data.clientTrack.name} <span style="color: #ff9800; margin-right: 5px;">(המסלול שלך)</span>
+                                        <td style="padding: clamp(6px, 1.5vw, 10px); text-align: right; color: #856404; font-weight: bold; word-wrap: break-word; overflow-wrap: break-word; font-size: clamp(0.7rem, 1.8vw, 0.85rem);">
+                                            ${top3Data.clientTrack.name} <span style="color: #ff9800; margin-right: 4px; white-space: nowrap; font-size: 0.85em;">(המסלול שלך)</span>
                                         </td>
-                                        <td style="padding: 10px; text-align: right; color: #856404; font-weight: bold;">
+                                        <td style="padding: clamp(6px, 1.5vw, 10px); text-align: right; color: #856404; font-weight: bold; white-space: nowrap; font-size: clamp(0.7rem, 1.8vw, 0.85rem);">
                                             ${top3Data.clientTrack.yield.toFixed(2)}%
                                         </td>
                                     </tr>
@@ -3186,6 +3280,7 @@
                             top3TableHtml += `
                                         </tbody>
                                     </table>
+                                    </div>
                                 </div>
                             `;
                         }
