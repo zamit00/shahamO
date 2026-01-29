@@ -1,0 +1,93 @@
+<!-- Consultation Form Modal -->
+<div id="consultationFormModal">
+    <div class="simple-form-container" style="max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative;">
+        <i class="fas fa-times" style="position: absolute; top: 15px; left: 15px; font-size: 2rem; cursor: pointer; color: white; z-index: 10;" onclick="closeConsultationForm()"></i>
+        
+        <div class="header-line has-h2" style="text-align: center; margin-bottom: 20px; padding-top: 20px;">
+            <div class="h2" style="color: white; font-size: 1.8rem; font-weight: bold; margin-bottom: 10px;">
+                &nbsp;
+            </div>
+            <div style="width: 100%; max-width: 300px; height: 2px; background: white; margin: 10px auto; border-radius: 1px;"></div>
+        </div>
+        
+        <div class="agent-bg">
+            <div class="agent-form" dir="rtl">
+                <form id="consultationForm" style="text-align: right;">
+                    <div class="input-col">
+                        <p>
+                            <input type="text" id="firstname" name="firstname" size="40" maxlength="400" required placeholder="שם פרטי" style="width: 100%; padding: 12px; background-color: #fff; border: 1px solid #0183AA; border-radius: 8px; font-size: 16px; color: #333;">
+                        </p>
+                    </div>
+                    
+                    <div class="input-col">
+                        <p>
+                            <input type="text" id="lastname" name="lastname" size="40" maxlength="400" required placeholder="שם משפחה" style="width: 100%; padding: 12px; background-color: #fff; border: 1px solid #0183AA; border-radius: 8px; font-size: 16px; color: #333;">
+                        </p>
+                    </div>
+                    
+                    <div class="input-col">
+                        <p>
+                            <input type="tel" id="phone" name="phone" dir="rtl" size="40" maxlength="400" required placeholder="טלפון נייד" style="width: 100%; padding: 12px; background-color: #fff; border: 1px solid #0183AA; border-radius: 8px; font-size: 16px; color: #333;">
+                        </p>
+                    </div>
+                    
+                    <div class="input-col">
+                        <p>
+                            <input type="email" id="email" name="email" size="40" maxlength="400" required placeholder="כתובת אימייל" style="width: 100%; padding: 12px; background-color: #fff; border: 1px solid #0183AA; border-radius: 8px; font-size: 16px; color: #333;">
+                        </p>
+                    </div>
+                    
+                    <div class="input-col">
+                        <p>
+                            <select id="message-type" name="message-type" required style="width: 100%; padding: 12px; background-color: #fff; border: 1px solid #0183AA; border-radius: 8px; font-size: 16px; color: #333;">
+                                <option value="" disabled selected>מהות הפנייה</option>
+                                <option value="קבלת הצעת מחיר ביטוח רכוש">קבלת הצעת מחיר ביטוח רכוש</option>
+                                <option value="קבלת הצעת מחיר ביטוחי חיים בריאות">קבלת הצעת מחיר ביטוחי חיים בריאות</option>
+                                <option value="קבלת הצעת מחיר פיננסים">קבלת הצעת מחיר פיננסים</option>
+                                <option value="קבלת שירות כללי">קבלת שירות כללי</option>
+                                <option value="אחר">אחר</option>
+                            </select>
+                        </p>
+                    </div>
+                    
+                    <div class="input-col radios">
+                        <p>
+                            <span class="radios-label" style="color: #fff; display: block; margin-bottom: 8px; font-size: 16px;">האם את/ה מבוטח/ת אצלנו כיום?</span>
+                            <label style="color: #fff; margin-left: 15px;">
+                                <input type="radio" name="is_customer" value="כן" style="margin-left: 5px;">
+                                <span style="margin: 0 5px;">כן</span>
+                            </label>
+                            <label style="color: #fff; margin-left: 15px;">
+                                <input type="radio" name="is_customer" value="לא" style="margin-left: 5px;">
+                                <span style="margin: 0 5px;">לא</span>
+                            </label>
+                        </p>
+                    </div>
+                    
+                    <div class="input-col" id="agentNameField" style="display: none;">
+                        <p>
+                            <input type="text" id="current_agent_text" name="current_agent_text" size="40" maxlength="400" placeholder="הקלד/י את שם הסוכן" style="width: 100%; padding: 12px; background-color: #fff; border: 1px solid #0183AA; border-radius: 8px; font-size: 16px; color: #333;">
+                        </p>
+                    </div>
+                    
+                    <div class="input-col full pp">
+                        <p>
+                            <label style="color: #fff; font-size: 14px; display: flex; align-items: start; text-align: justify;">
+                                <input type="checkbox" id="pp-agree" name="pp-agree" value="1" required style="margin-left: 15px; margin-top: 3px; flex-shrink: 0;">
+                                <span style="flex: 1;">
+                                    אני מוסר את המידע מרצוני החופשי ובהסכמתי המלאה מבלי שחלה עליה חובה חוקית לעשות כן. ידוע לי כי המידע עשוי להימסר לצדדים שלישיים על מנת שאקבל את השירותים ו/או המוצרים הביטוחיים המבוקשים על ידי. כמו כן ידוע לי כי אוכל לבקש לתקן ולעיין במידע אודותיי בהתאם לדיני הפרטיות. ככל שלא אמסור את המידע, מטבע הדברים, לא אוכל לקבל את השירותים ו/או המוצרים המוצעים. שם בעלת השליטה במאגר המידע: שחם אורלן סוכנות לביטוח בע"מ | מייל: info@shaham-orlan.co.il | טלפון: 03-920666 | כתובת סניף ראשי: רח' היצירה 3, פתח – תקווה.
+                                </span>
+                            </label>
+                        </p>
+                    </div>
+                    
+                    <div class="submit-col">
+                        <p style="text-align: center; margin: 0;">
+                            <input type="submit" value="שלח" id="agents-submit-form" style="background-color: #3aafe6; color: white; border: none; padding: 12px 25px; font-size: 18px; border-radius: 8px; cursor: pointer; transition: background-color 0.3s ease; max-width: 300px; width: 100%; display: inline-block;">
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
